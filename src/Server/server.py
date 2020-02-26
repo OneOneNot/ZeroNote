@@ -1,7 +1,7 @@
 import socket
 
 
-class server():
+class Server():
     def __init__(self, port, ip):
         self.soc = socket.socket()
         self.PORT = port
@@ -22,3 +22,6 @@ class server():
     def main(self):
         c, a = self.soc.accept()
         request = c.recv(1024)
+        f = open(request, "r")
+        c.send(f.read())
+        f.close()
