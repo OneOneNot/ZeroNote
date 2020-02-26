@@ -1,4 +1,5 @@
 import socket
+import Util
 
 
 class Server():
@@ -10,7 +11,7 @@ class Server():
         
         
     def soc_bind(self):
-        self.soc.bind((self.HOST, self.PORT))
+        self.soc.bind(("127.0.0.1", int(self.PORT)))
         print "Server binded at port " + str(self.PORT)
         
         
@@ -22,6 +23,15 @@ class Server():
     def main(self):
         c, a = self.soc.accept()
         request = c.recv(1024)
-        f = open(request, "r")
-        c.send(f.read())
-        f.close()
+        response = ""
+        if request is "mainpage":
+            response = Util.get_mainpage()
+        elif request is "channels":
+            response = Util.get_channels
+        else:
+            f = open(request, "r")
+            response = f.read()
+            f.close()
+        c.send(response)
+        c.close()
+        Util.log(a, request)

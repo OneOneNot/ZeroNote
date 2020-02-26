@@ -9,5 +9,6 @@ class ServerThread(Thread):
         self.server.soc_bind()
         self.server.start_listening(1)
         while self.Active is True:
-            self.main()
+            self.server.main()
+        self.server.soc.close()
     
